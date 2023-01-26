@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "digitalocean" {
-  token = "dop_v1_4de653098a36000bb43ec1041817e027a85ac35a5fe86eca6b5a4d8d03e52153"
+  token = var.do_token
 }
 
 resource "digitalocean_droplet" "jenkins" {
@@ -41,18 +41,18 @@ variable "do_token" {
 }
 
 variable "ssh_key_name" {
-  default = "jornada"
+  default = ""
 }
 
 variable "region" {
-  default = "nyc1"
+  default = ""
 }
 
 output "jenkins_ip"{
   value = digitalocean_droplet.jenkins.ipv4_address
 }
 
-resource "local_file" "foo" {
+resource "local_file" "kube_config" {
   content = digitalocean_kubernetes_cluster.k8s.kube_config.0.raw_config
   filename = "kube_config.yaml"
 }
